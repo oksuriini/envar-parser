@@ -7,11 +7,11 @@ import (
 )
 
 // Parses environmental variables from file and sets them as envars
-func SetAllEnvars(fileName string) {
+func SetAllEnvars(fileName string) error {
 	lines, err := parseFile(fileName)
 	if err != nil {
 		fmt.Println("error: ", err)
-		return
+		return err
 	}
 
 	for index, line := range lines {
@@ -19,8 +19,10 @@ func SetAllEnvars(fileName string) {
 		err := os.Setenv(key, value)
 		if err != nil {
 			fmt.Printf("Error while setting envar %s, with value %s: %s", key, value, err)
+			return err
 		}
 	}
+	return nil
 }
 
 // Parses environmental variables from file and returns the value of found key
